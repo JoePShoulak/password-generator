@@ -11,20 +11,9 @@ function randomNumber(max) {
   return Math.floor(Math.random()*max);
 }
 
-function useLowerCase() {
-  return confirm("Use lowercase letters?");
-}
-
-function useUpperCase() {
-  return confirm("Use uppercase letters?");
-}
-
-function useNumbers() {
-  return confirm("Use numbers?");
-}
-
-function useSpecial() {
-  return confirm("Use special characters?");
+// Ask the user if we're including the given character set
+function confirmCharacterSet(set) {
+  return confirm("Use " + set + "?");
 }
 
 // Actually generate the password
@@ -33,10 +22,10 @@ function generatePassword() {
   var passLength = getUserLength();
 
   // Ask the user which character sets we're going to use
-  var lowerCase = useLowerCase();
-  var upperCase = useUpperCase();
-  var numbers = useNumbers();
-  var special = useSpecial();
+  var lowerCase = confirmCharacterSet("lowercase letters");
+  var upperCase = confirmCharacterSet("uppercase letters");
+  var numbers = confirmCharacterSet("numbers");
+  var special = confirmCharacterSet("special characters");
 
   // prepare holder variables
   var password = "";
