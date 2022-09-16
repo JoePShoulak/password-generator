@@ -1,3 +1,19 @@
+var cases = [
+  {
+    name: "lowercase",
+    set: ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
+  }, {
+    name: "uppercase",
+    set: ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
+  }, {
+    name: "numbers",
+    set: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+  }, {
+    name: "special",
+    set: ["!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "-", "=", "_", "+", ",", ".", "/", "<", ">", "?", ":", ";", "|", "{", "}", "[", "]", "`", "~", "'", "\"", "\\"]
+  }
+]
+
 // Assignment Code
 var generateBtn = document.querySelector("#generate");
 
@@ -13,33 +29,41 @@ function randomNumber(max) {
 
 // Ask the user if we're including the given character set
 function confirmCharacterSet(set) {
-  return confirm("Use " + set + "?");
+  return confirm(`Use ${set} characters?`);
+}
+
+function getCharPool() {
+  var charPool = [];
+
+  // Foreach case we have access to, confirm we're using it, and if so add it to charpool
+  cases.forEach(element => {
+    if (confirmCharacterSet(element.name)) {charPool = charPool.concat(element.set)}
+  });
+
+  return charPool;
 }
 
 // Actually generate the password
-function generatePassword() {
+function generatePassword() {  
   // Get the length from the user
   var passLength = getUserLength();
 
-  // Ask the user which character sets we're going to use
-  var lowerCase = confirmCharacterSet("lowercase letters");
-  var upperCase = confirmCharacterSet("uppercase letters");
-  var numbers = confirmCharacterSet("numbers");
-  var special = confirmCharacterSet("special characters");
+  if (passLength < 8 || passLength > 128) {
+    alert("Password must be between 8 and 128 characters.");
+    return "";
+  }
 
-  // prepare holder variables
+  var charPool = getCharPool();
+
+  if (charPool.length === 0) {
+    alert("You must choose at least one character set for your password.");
+    return "";
+  }
   var password = "";
-  var charpool = [];
-
-  // If we're using the character set, add that character set to our pool
-  if (lowerCase) {charpool.push("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z")}
-  if (upperCase) {charpool.push("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z")}
-  if (numbers) {charpool.push("0", "1", "2", "3", "4", "5", "6", "7", "8", "9")}
-  if (special) {charpool.push("!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "-", "=", "_", "+", ",", ".", "/", "<", ">", "?", ":", ";", "|", "{", "}", "[", "]", "`", "~", "'", "\"", "\\")}
 
   // For each character in the pass length, select a random character from the pool and add it to the password
   for (i=0; i<passLength; i++) {
-    password += charpool[randomNumber(charpool.length)];
+    password += charPool[randomNumber(charPool.length)];
   }
 
   // Bring it home
