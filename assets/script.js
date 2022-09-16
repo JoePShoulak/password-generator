@@ -23,13 +23,8 @@ function getUserLength() {
 }
 
 // Get a random number for use with selecting the new password character from the character pool
-function randomNumber(max) {
-  return Math.floor(Math.random()*max);
-}
-
-// Ask the user if we're including the given character set
-function confirmCharacterSet(set) {
-  return confirm(`Use ${set} characters?`);
+function randomElement(array) {
+  return array[Math.floor(Math.random()*array.length)];
 }
 
 function getCharPool() {
@@ -37,7 +32,8 @@ function getCharPool() {
 
   // Foreach case we have access to, confirm we're using it, and if so add it to charpool
   cases.forEach(element => {
-    if (confirmCharacterSet(element.name)) {charPool = charPool.concat(element.set)}
+    var usingSet = confirm(`Use ${element.name} characters?`);
+    if (usingSet) {charPool = charPool.concat(element.set)}
   });
 
   return charPool;
@@ -48,22 +44,27 @@ function generatePassword() {
   // Get the length from the user
   var passLength = getUserLength();
 
+  // Validate on password length (between 8 and 128)
   if (passLength < 8 || passLength > 128) {
     alert("Password must be between 8 and 128 characters.");
     return "";
   }
 
+  // Get the character pool from the user
   var charPool = getCharPool();
 
+  // Validate character pool (not empty)
   if (charPool.length === 0) {
     alert("You must choose at least one character set for your password.");
     return "";
   }
+
+  // Placeholder variable
   var password = "";
 
   // For each character in the pass length, select a random character from the pool and add it to the password
   for (i=0; i<passLength; i++) {
-    password += charPool[randomNumber(charPool.length)];
+    password += randomElement(charPool);
   }
 
   // Bring it home
