@@ -30,7 +30,9 @@ function getCharPool() {
   // Foreach case we have access to, confirm we're using it, and if so add it to charpool
   cases.forEach(element => {
       // If we're using that char set, redefine the charPool to also include that set
-      if (confirm(`Use ${element.name} characters?`)) {charPool = charPool.concat(element.set)}
+      if (confirm(`Use ${element.name} characters?`)) {
+        charPool = charPool.concat(element.set)
+      }
   });
 
   return charPool;
