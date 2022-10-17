@@ -18,12 +18,12 @@ var cases = [
 function getUserLength() {
     return parseInt(prompt("How many characters?"));
   }
-  
+
 // Get a random number for use with selecting the new password character from the character pool
 function randomElement(array) {
   return array[Math.floor(Math.random()*array.length)];
 }
-  
+
 function getCharPool() {
   var charPool = [];
 
